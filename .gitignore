@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# R
+.Rhistory
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Raw downloaded data
+data/*.csv
+
+# Build products and experiment outputs
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+/results/
+pytest-of-*/

@@ -1,0 +1,164 @@
+{
+  "design": "Fixed initial HMM training; sequential one-observation-ahead holdout; no refitting",
+  "input_sha256": "c5c8be11a461dd2c761699da4f2c7f6ab9c0af4d7f091b9a4b8199cafbf82647",
+  "assets": [
+    "^FTSE",
+    "^GSPC",
+    "^STOXX50E"
+  ],
+  "weights": [
+    0.3333333333333333,
+    0.3333333333333333,
+    0.3333333333333333
+  ],
+  "return_observations": 1448,
+  "training": {
+    "observations": 750,
+    "start": "2020-01-06 00:00:00",
+    "end": "2023-02-07 00:00:00"
+  },
+  "evaluation": {
+    "start": "2023-02-08 00:00:00",
+    "end": "2025-12-30 00:00:00",
+    "observations": 698
+  },
+  "configuration": {
+    "prices": "data/market_prices_verified.csv",
+    "output": "results/sensitivity_95_500",
+    "train_size": 750,
+    "window": 500,
+    "alpha": 0.95,
+    "states": 2,
+    "seed": 42,
+    "method": "bisection",
+    "n_sims": 50000,
+    "weights": null,
+    "no_plots": false
+  },
+  "training_descriptives": {
+    "historical_var": 0.020024215732355532,
+    "historical_es": 0.03341762327857395,
+    "gaussian_var": 0.02172177625403912
+  },
+  "hmm": {
+    "means": [
+      0.0005695262183336436,
+      -0.000894014498489738
+    ],
+    "sigmas": [
+      0.008293937171834938,
+      0.025297409948792524
+    ],
+    "transition_matrix": [
+      [
+        0.9893734314179782,
+        0.01062656858202175
+      ],
+      [
+        0.04457469068902372,
+        0.9554253093109762
+      ]
+    ],
+    "start_probabilities": [
+      0.9999999999999996,
+      3.7529303060911217e-16
+    ],
+    "fit_diagnostics": [
+      {
+        "seed": 42,
+        "converged": true,
+        "iterations": 30,
+        "log_likelihood": -1117.6265654193871,
+        "last_improvement": 9.919338253894239e-05
+      },
+      {
+        "seed": 43,
+        "converged": true,
+        "iterations": 12,
+        "log_likelihood": -1117.6265495398418,
+        "last_improvement": 6.699997788928158e-05
+      },
+      {
+        "seed": 44,
+        "converged": true,
+        "iterations": 28,
+        "log_likelihood": -1117.6265588800388,
+        "last_improvement": 7.91081945408223e-05
+      }
+    ]
+  },
+  "backtests": {
+    "rolling_var": {
+      "observations": 698,
+      "breaches": 20,
+      "breach_rate": 0.02865329512893983,
+      "expected_breaches": 34.900000000000034,
+      "kupiec": {
+        "n_obs": 698,
+        "n_breaches": 20,
+        "alpha": 0.95,
+        "lr_stat": 7.862144064742182,
+        "p_value": 0.005048049659991932
+      },
+      "independence": {
+        "n_00": 661,
+        "n_01": 16,
+        "n_10": 16,
+        "n_11": 4,
+        "lr_stat": 9.985083065644744,
+        "p_value": 0.0015781343590805887
+      },
+      "conditional_coverage": {
+        "lr_stat": 17.847227130386926,
+        "p_value": 0.00013320602539359163
+      },
+      "average_var": 0.012737596847324147,
+      "mean_quantile_loss": 0.0009131893598395776
+    },
+    "hmm_var": {
+      "observations": 698,
+      "breaches": 14,
+      "breach_rate": 0.02005730659025788,
+      "expected_breaches": 34.900000000000034,
+      "kupiec": {
+        "n_obs": 698,
+        "n_breaches": 14,
+        "alpha": 0.95,
+        "lr_stat": 16.875899462285247,
+        "p_value": 3.9905059696909144e-05
+      },
+      "independence": {
+        "n_00": 671,
+        "n_01": 12,
+        "n_10": 12,
+        "n_11": 2,
+        "lr_stat": 4.8639855223781865,
+        "p_value": 0.02742291702812259
+      },
+      "conditional_coverage": {
+        "lr_stat": 21.739884984663433,
+        "p_value": 1.9021464758359984e-05
+      },
+      "average_var": 0.014310017439634342,
+      "mean_quantile_loss": 0.000872303974265219
+    }
+  },
+  "environment": {
+    "python": "3.14.3",
+    "packages": {
+      "numpy": "2.4.2",
+      "pandas": "2.3.3",
+      "scipy": "1.17.0",
+      "matplotlib": "3.10.8",
+      "hmmlearn": "0.3.3",
+      "scikit-learn": "1.8.0",
+      "yfinance": "0.2.66"
+    }
+  },
+  "limitations": [
+    "Local-currency equity-index proxy; no FX, trading costs or dividend reinvestment model",
+    "Common-date intervals can span holidays; market closing times differ",
+    "Fixed HMM parameters may become stale; no superiority claim follows from non-rejection",
+    "Sparse tail events limit asymptotic tests; null test values mean independence was not identifiable"
+  ]
+}
